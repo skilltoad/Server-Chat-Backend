@@ -35,6 +35,8 @@ const server = app.listen(process.env.PORT, () => {
 const io = socket(server, {
   cors: {
     origin: 'https://server-chat-echo.vercel.app',
+    methods: ["GET", "POST"],
+    transports: ['websocket', 'polling'],
     credentials: true,
   },
 });
