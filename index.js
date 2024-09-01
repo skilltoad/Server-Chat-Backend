@@ -8,6 +8,10 @@ const messageModel = require("./model/messageModel");
 const app = express();
 const socket = require("socket.io");
 require("dotenv").config();
+app.use(cors({
+  origin: 'https://https://server-chat-echo.vercel.app', 
+  credentials: true
+}));
 
 app.use(cors());
 app.use(express.json());
