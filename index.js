@@ -3,6 +3,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
 const messageRoutes = require("./routes/messagesRoutes");
+const messageModel = require("./model/messageModel");
+
 const app = express();
 const socket = require("socket.io");
 require("dotenv").config();
@@ -32,16 +34,20 @@ const io = socket(server, {
     credentials: true,
   },
 });
+const SERVER_ID = "66d1b09431a24fcdfad58911";
 global.onlineUsers = new Map();
+onlineUsers.set(SERVER_ID, "server-socket-id");
 io.on("connection", (socket) => {
   global.chatSocket = socket;
   socket.on("add-user", (userId) => {
-    onlineUsers.set(userId, socket.io);
+    onlineUsers.set(userId, socket.id);
   });
-  socket.on("send-msg", (data)=>{
-    const sendUserSocket=onlineUsers.get(data.to);
-    if(sendUserSocket){
-      socket.to(sendUserSocket).emit("msg-receive", data.msg)
+
+  socket.on("send-msg", (data) => {
+    // io.emit("msg-recieve", data.message);
+    const sendUserSocket = onlineUsers.get(data.to);
+    if (sendUserSocket) {
+      io.to(sendUserSocket).emit("msg-recieve", data.message);
     }
-  })
+  });
 });
