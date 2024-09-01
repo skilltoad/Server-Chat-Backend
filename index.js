@@ -9,7 +9,8 @@ const app = express();
 const socket = require("socket.io");
 require("dotenv").config();
 app.use(cors({
-  origin: 'https://https://server-chat-echo.vercel.app', 
+  origin: 'https://https://server-chat-echo.vercel.app',
+  methods: ["POST","GET"],
   credentials: true
 }));
 
