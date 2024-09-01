@@ -39,6 +39,7 @@ const io = socket(server, {
     transports: ['websocket', 'polling'],
     credentials: true,
   },
+  allowEIO3: true,
 });
 const SERVER_ID = "66d1b09431a24fcdfad58911";
 global.onlineUsers = new Map();
